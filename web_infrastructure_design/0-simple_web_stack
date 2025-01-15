@@ -1,0 +1,73 @@
+Web Infrastructure Design – Single Server
+Overview
+This document outlines the architecture for hosting a website (www.foobar.com) on a single server. The setup demonstrates how core components work together to deliver web content and handle user interactions.
+
+Infrastructure Components and Workflow
+User Request Workflow
+The user enters www.foobar.com in their browser.
+The browser queries a DNS server to resolve the domain name to an IP address (8.8.8.8).
+Once resolved, the browser sends an HTTP/HTTPS request to the server at 8.8.8.8.
+Server Components (IP: 8.8.8.8)
+Web Server (Nginx)
+
+Acts as the first contact point for incoming requests.
+Delivers static content such as HTML, CSS, and JavaScript files.
+Handles SSL/TLS encryption for secure connections.
+Passes dynamic content requests to the application server.
+Known for its efficiency and ability to handle high concurrency.
+Application Server
+
+Manages the execution of application logic for dynamic requests.
+Processes user interactions and applies business rules.
+Communicates with the database to fetch or store data.
+Generates dynamic content (e.g., HTML pages based on user input).
+Application Files
+
+Stores the website's source code and related assets.
+Contains templates, scripts, and configuration files.
+Powers the application logic and defines how the website functions.
+Database (MySQL)
+
+Handles all persistent storage needs, such as user data and website content.
+Maintains data relationships and ensures consistency.
+Provides robust querying capabilities for the application server.
+Selected for its reliability and widespread compatibility.
+Technical Details
+DNS Configuration
+Domain Name: foobar.com
+Record Type: A or CNAME
+Destination: Points to the server's IP address (8.8.8.8).
+CNAME records allow easier updates if the server's IP changes in the future.
+Communication Protocols
+External Communication: HTTP/HTTPS for requests between the user and the server.
+Internal Communication: FastCGI protocol between Nginx and the application server.
+Database Communication: MySQL protocol for querying and updating data.
+Infrastructure Limitations
+Single Point of Failure (SPOF)
+
+A hardware or network failure renders the entire website inaccessible.
+There is no redundancy to mitigate downtime.
+Maintenance Constraints
+
+Deploying new code or updates requires restarting the server.
+Maintenance results in temporary service interruptions.
+Users experience downtime during essential updates.
+Scaling Limitations
+
+The server cannot manage high traffic loads effectively.
+Limited resources (CPU, memory, disk) restrict performance under heavy usage.
+No load distribution mechanisms to balance incoming traffic.
+Suggested Enhancements
+Short-Term Improvements
+Set up automated backups to protect against data loss.
+Deploy monitoring tools for real-time performance tracking.
+Schedule maintenance during low-traffic periods.
+Optimize the application and database queries to improve efficiency.
+Long-Term Improvements
+Introduce additional servers for redundancy.
+Implement a load balancer to distribute traffic across multiple servers.
+Separate the database onto its own server for improved performance.
+Add a caching layer (e.g., Redis, Memcached) to reduce database load.
+Use a Content Delivery Network (CDN) to enhance global content delivery.
+Conclusion
+This single-server infrastructure is simple and cost-effective for small-scale websites. However, it faces challenges in reliability, maintenance, and scalability. For long-term growth and better performance, transitioning to a multi-server architecture with redundancy and load balancing is strongly recommended.
