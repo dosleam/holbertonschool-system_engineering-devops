@@ -1,0 +1,80 @@
+Three-Server Web Infrastructure Design
+Overview
+This document outlines a scalable and reliable infrastructure for www.foobar.com, utilizing three servers: a load balancer, web/application servers, and a database setup with replication. This design improves traffic handling, minimizes downtime, and ensures better performance.
+
+Infrastructure Components
+1. Load Balancer Server (HAProxy)
+Purpose: Distributes client requests among multiple servers to optimize resource usage and prevent overload.
+
+Traffic Distribution:
+
+Algorithm: Round Robin
+Requests are forwarded in a sequential manner to available servers.
+Ensures a fair and equal load among all servers.
+Alternative algorithms can include "Least Connections" or "Source IP Hash" for specific use cases.
+Setup:
+
+Active-Active Configuration:
+All servers actively handle requests at the same time.
+Maximizes resource utilization compared to Active-Passive setups, where backup servers remain idle until needed.
+2. Web/Application Servers
+Web Server (Nginx):
+
+Handles incoming HTTP/HTTPS requests.
+Serves static files such as HTML, CSS, and JavaScript.
+Manages SSL/TLS encryption for secure connections.
+Application Server:
+
+Processes dynamic content by executing application logic.
+Handles user interaction, business processes, and API calls.
+Communicates with the database server to fetch or store data.
+Application Files:
+
+Stores the codebase powering the application.
+Includes assets like configuration files, templates, and static resources.
+3. Database Server
+Architecture: Primary-Replica (Master-Slave) Configuration.
+Primary Node (Master):
+Handles all write operations to maintain data integrity.
+Replicates updates and changes to the replica node.
+Replica Node (Slave):
+Handles read operations, reducing the load on the primary node.
+Maintains a synchronized copy of the database for redundancy.
+Acts as a failover in case the primary node fails.
+Infrastructure Details
+Load Balancer Configuration
+Algorithm:
+Round Robin: Sequentially forwards requests to available servers in the pool.
+Ensures balanced traffic distribution among servers with similar capacity.
+Web/Application Servers
+Nginx handles both static content and routing to application services.
+Application servers execute dynamic requests and communicate with the database.
+Database Communication
+The primary node replicates its data to the replica in real time, maintaining a consistent and reliable dataset for both read and write operations.
+Benefits of the Three-Server Design
+Scalability:
+
+Handles higher traffic volumes by distributing requests across multiple servers.
+Supports horizontal scaling by adding additional web/application servers.
+Redundancy and Reliability:
+
+Database replication ensures data availability during hardware failures.
+Active-Active load balancing minimizes downtime and improves fault tolerance.
+Performance:
+
+Load balancing optimizes resource utilization.
+Replica databases reduce query response times by offloading read operations.
+Challenges and Future Improvements
+Dependency on Load Balancer:
+
+The load balancer becomes a single point of failure.
+Recommendation: Implement a secondary load balancer in failover mode.
+Increased Complexity:
+
+Managing multiple servers requires better monitoring and maintenance tools.
+Scaling Beyond This Setup:
+
+Introduce caching layers (e.g., Redis, Memcached) to reduce database loads.
+Utilize a CDN (Content Delivery Network) for distributing static content globally.
+Conclusion
+This three-server architecture is a robust solution for medium to high-traffic websites, balancing performance, reliability, and scalability. As traffic grows, additional optimizations and infrastructure components can be integrated to further enhance functionality.
