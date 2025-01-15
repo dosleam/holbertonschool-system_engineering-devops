@@ -1,0 +1,67 @@
+Infrastructure Design
+This infrastructure separates roles across dedicated servers for scalability, reliability, and optimized performance. Below is a breakdown of the components and their roles.
+
+1. Web Server
+Role: Handles client HTTP requests and serves static assets (HTML, CSS, JavaScript).
+Technology: Nginx for its efficiency in handling multiple concurrent connections.
+Benefits:
+Reduces the application server's workload by serving static content.
+Acts as a security layer, supporting SSL/TLS termination.
+2. Application Server
+Role: Processes dynamic requests, executes business logic, and interacts with the database.
+Technology: Framework-specific servers (e.g., Gunicorn for Python, Node.js for JavaScript).
+Benefits:
+Decouples business logic processing from request handling.
+Enables horizontal scaling for backend services.
+3. Database Server
+Role: Centralizes data storage and handles queries for reads and writes.
+Technology: PostgreSQL or MySQL for relational data; MongoDB for NoSQL needs.
+Benefits:
+Dedicated server ensures consistent data management and high availability.
+Optimized query handling without affecting other server functions.
+4. Load Balancer
+Role: Distributes traffic among multiple servers to optimize resource usage and increase reliability.
+Technology: HAProxy for its performance and reliability.
+Setup:
+Clustered for failover protection.
+Configured with round-robin or least-connections algorithms.
+Benefits:
+Prevents overloading of individual servers.
+Ensures uninterrupted service even if one server fails.
+Infrastructure Overview
+Below is a conceptual view of the setup:
+
+Infrastructure Flow
+Clients send requests to the Load Balancer.
+The Load Balancer distributes requests to multiple Web Servers.
+Web Servers forward dynamic requests to the Application Servers.
+Application Servers retrieve or store data via the Database Server.
+Diagram
+diff
+Copier le code
++--------------------+
+|     Clients        |
++--------------------+
+          |
+          v
++--------------------+
+|   Load Balancer    |
++--------------------+
+      /      \
++--------+  +--------+
+| Web Svr|  | Web Svr|
++--------+  +--------+
+      |         |
+      v         v
++--------------------+
+| Application Server |
++--------------------+
+          |
+          v
++--------------------+
+|  Database Server   |
++--------------------+
+Advantages of This Design
+Scalability: Each layer can scale independently to meet demand.
+Fault Tolerance: Load balancer and server clustering reduce the risk of downtime.
+Performance: Dedicated servers for each role optimize resource usage.
