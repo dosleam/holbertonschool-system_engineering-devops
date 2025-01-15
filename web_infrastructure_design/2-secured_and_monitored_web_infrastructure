@@ -1,0 +1,52 @@
+Secured and Monitored Web Infrastructure Design
+Overview
+This document outlines a robust web infrastructure for www.foobar.com, focusing on advanced security measures and comprehensive monitoring to ensure reliability, user trust, and operational transparency.
+
+Security Features
+1. Layered Firewalls
+Objective:
+
+Restrict unauthorized access.
+Mitigate DDoS and malicious traffic.
+Secure internal communication between servers.
+Structure:
+
+Firewall 1: Protects external traffic hitting the load balancer.
+Firewall 2: Secures traffic between the load balancer and web servers.
+Firewall 3: Isolates application servers from unnecessary access.
+Firewall 4: Shields the database layer, ensuring only the application servers can query it.
+2. Secure Communication with SSL/TLS
+Purpose:
+
+Encrypt all communication between users and servers.
+Prevent data leaks and eavesdropping.
+Boost search engine rankings and user confidence.
+Implementation:
+
+SSL certificate for www.foobar.com using TLS 1.3 protocol.
+Enforced strong cipher suites and forward secrecy.
+Automated certificate renewal via Let's Encrypt or another CA.
+Monitoring Components
+1. Monitoring Tools and Data Collection
+Objective:
+
+Detect anomalies in system performance.
+Provide insights into resource utilization and traffic patterns.
+Support proactive problem resolution.
+Components:
+
+Monitoring Clients: Installed on all servers to collect metrics.
+Data Sources:
+Server health: CPU, memory, disk usage.
+Application performance: Logs, error rates, response times.
+Network activity: Bandwidth, connection requests.
+2. Queries Per Second (QPS) Monitoring
+Role:
+
+Measure the volume of incoming requests to the web servers.
+Detect traffic spikes or irregularities.
+Ensure resource scaling keeps up with demand.
+Tools:
+
+Nginx Status Module: Tracks request handling in real time.
+Custom Alerts: Integrated with services like Prometheus and Grafana.
